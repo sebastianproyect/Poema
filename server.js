@@ -132,6 +132,16 @@ app.post('/api/comments/delete', (req, res) => {
     });
 });
 
+// Debug Endpoint (Para verificar si detecta Postgres)
+app.get('/api/debug-status', (req, res) => {
+    res.json({
+        node_env: process.env.NODE_ENV,
+        has_postgres_url: !!process.env.POSTGRES_URL,
+        postgres_url_start: process.env.POSTGRES_URL ? process.env.POSTGRES_URL.substring(0, 10) + '...' : 'N/A',
+        db_type: process.env.POSTGRES_URL ? 'Postgres' : 'SQLite Check Failed - Still using SQLite'
+    });
+});
+
 // 9. Manejo de Errores y 404 para API
 app.all('/api/{*path}', (req, res) => {
     res.status(404).json({ error: "Endpoint de API no encontrado." });
